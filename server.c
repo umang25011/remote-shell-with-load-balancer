@@ -55,7 +55,7 @@ void ServeClient(int sd, const char *serverType)
     {
         fprintf(stderr, "\nserveClient: reading from client");
         n = read(sd, message, MAX_LENGTH);
-
+      
         // quit if the client sends 'quit'
         message[n] = '\0';
         fprintf(stderr, "\nserveClient: client command: %s", message);
