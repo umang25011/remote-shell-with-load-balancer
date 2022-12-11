@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
     while (1)
     {
         // prompt
-        write(STDOUT_FILENO, ">>>", 4);
+        write(STDOUT_FILENO, "--------------------------\n\n\n>>>", 32);
         n = read(STDIN_FILENO, buffer, MAX_LENGTH);
         buffer[n] = '\0';
 
@@ -52,8 +52,10 @@ int main(int argc, char const *argv[])
             {
                 buffer[n] = '\0';
                 write(STDOUT_FILENO, buffer, n + 1);
+                // fprintf(stderr, "\nOutput From Server: %d", n);
             }
-        } while (strncmp(buffer, "----------------------------------------", 40));
+        } while (strncmp(buffer, "DONE----", 8));
+        // strncmp(buffer, "----------------------------------------", 40)
     }
 
     return 0;

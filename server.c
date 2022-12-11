@@ -34,11 +34,12 @@ int run(char *buff, int length)
     if (fork() == 0)
     {
         system(buff);
+        fprintf(stderr, "\nrun: after running system");
         exit(1);
     }
     else
     {
-        wait(&exitStatus);
+        wait(NULL);
     }
 }
 
@@ -52,10 +53,12 @@ void ServeClient(int sd, const char *serverType)
     // dup2(sd, STDERR_FILENO);
     while (1)
     {
+        fprintf(stderr, "\nserveClient: reading from client");
         n = read(sd, message, MAX_LENGTH);
 
         // quit if the client sends 'quit'
         message[n] = '\0';
+        fprintf(stderr, "\nserveClient: client command: %s", message);
         if (strncmp(message, "quit", 4) == 0)
         {
             fprintf(stderr, "Client Quit: %s\n", message);
@@ -65,7 +68,7 @@ void ServeClient(int sd, const char *serverType)
         else
         {
             run(message, n);
-            printf("----------------------------------------\n");
+            write(sd, "DONE----", 9);
         }
     }
 }
@@ -110,6 +113,7 @@ int main(int argc, char const *argv[])
             if (strncmp(buffer, "s", 1) == 0)
             {
                 fprintf(stderr, "\nMessage from Server: %s", buffer);
+                continue;
             }
             else
             {

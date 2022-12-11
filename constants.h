@@ -6,8 +6,8 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
-int SERVER_A_PORT_NUMBER = 9654,
-    SERVER_B_PORT_NUMBER = 9655,
+int SERVER_A_PORT_NUMBER = 9677,
+    SERVER_B_PORT_NUMBER = 9688,
     LOAD_BALANCER_PORT_NUMBER = 9656,
     MAX_PROCESS_PER_SERVER = 2,
     MAX_PROCESSES = 1000,
