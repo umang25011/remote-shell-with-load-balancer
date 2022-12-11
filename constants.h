@@ -6,16 +6,16 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
-int SERVER_A_PORT_NUMBER = 9677,
-    SERVER_B_PORT_NUMBER = 9688,
+int SERVER_A_PORT_NUMBER = 5000,
+    SERVER_B_PORT_NUMBER = 6000,
     LOAD_BALANCER_PORT_NUMBER = 9656,
     MAX_PROCESS_PER_SERVER = 2,
     MAX_PROCESSES = 1000,
     MAX_WORD_LENGTH = 40,
     MAX_LENGTH = 100000;
 
-char SERVER_A_IP[] = " 172.27.137.31";
-char SERVER_B_IP[] = "172.31.132.227";
+char SERVER_A_IP[] = "127.0.1.1";
+char SERVER_B_IP[] = "127.0.1.1";
 char LOAD_BALANCER_IP[] = "127.0.0.1";
 
 void connectToServer(int *server, char *ip, int portNumber)
@@ -33,7 +33,6 @@ void connectToServer(int *server, char *ip, int portNumber)
     // config the server socket
     servAdd.sin_family = AF_INET;
     servAdd.sin_port = htons((uint16_t)portNumber);
-    servAdd.sin_addr.s_addr = inet_addr(ip);
     if (inet_pton(AF_INET, ip, &servAdd.sin_addr) < 0)
     {
         fprintf(stderr, " inet_pton() has failed\n");
