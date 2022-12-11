@@ -30,5 +30,31 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "\nConnected To Server %s", buffer);
     }
 
+    while (1)
+    {
+        // prompt
+        write(STDOUT_FILENO, ">>>", 4);
+        n = read(STDIN_FILENO, buffer, MAX_LENGTH);
+        buffer[n] = '\0';
+
+        // send commands to the server using space" " to seperate arguments
+        write(server, buffer, strlen(buffer) + 1);
+        // user types 'quit' to close the connection
+        if (strncmp(buffer, "quit", 4) == 0)
+        {
+            printf("Connection Ended\n");
+            close(server);
+            exit(0);
+        }
+        do
+        {
+            if (n = read(server, buffer, MAX_LENGTH))
+            {
+                buffer[n] = '\0';
+                write(STDOUT_FILENO, buffer, n + 1);
+            }
+        } while (strncmp(buffer, "----------------------------------------", 40));
+    }
+
     return 0;
 }

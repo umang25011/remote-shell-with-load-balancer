@@ -10,6 +10,7 @@
 
 int no_of_server_a_clients = 0, no_of_server_b_clients = 0, total_clients = -1;
 
+// determines which server to join
 int join_server_a_or_b()
 {
     // a -> 1, b -> 0
@@ -24,6 +25,49 @@ int join_server_a_or_b()
         join_server = 1;
 
     return join_server;
+}
+
+int run(char *buff, int length)
+{
+    int exitStatus = -1;
+    // child Process
+    if (fork() == 0)
+    {
+        system(buff);
+        exit(1);
+    }
+    else
+    {
+        wait(&exitStatus);
+    }
+}
+
+void ServeClient(int sd, const char *serverType)
+{
+    char message[MAX_LENGTH];
+    int n;
+    // make the screen descriptor designate the client socket
+    dup2(sd, STDOUT_FILENO);
+    dup2(sd, STDIN_FILENO);
+    // dup2(sd, STDERR_FILENO);
+    while (1)
+    {
+        n = read(sd, message, MAX_LENGTH);
+
+        // quit if the client sends 'quit'
+        message[n] = '\0';
+        if (strncmp(message, "quit", 4) == 0)
+        {
+            fprintf(stderr, "Client Quit: %s\n", message);
+            close(sd);
+            exit(0);
+        }
+        else
+        {
+            run(message, n);
+            printf("----------------------------------------\n");
+        }
+    }
 }
 
 int main(int argc, char const *argv[])
@@ -83,6 +127,7 @@ int main(int argc, char const *argv[])
                     no_of_server_b_clients++;
                     write(client, "B", 1);
                     close(client);
+                    continue;
                 }
                 // fprintf(stderr, "\n Total clients: %d, A: %d, B: %d, join_server: %d", total_clients, no_of_server_a_clients, no_of_server_b_clients, join_server_a);
             }
@@ -90,7 +135,13 @@ int main(int argc, char const *argv[])
 
         else
             fprintf(stderr, "\nClient Accepted");
-    }
 
+        if (fork() == 0)
+            ServeClient(client, argv[1]);
+        else
+        {
+            // decrease client count
+        }
+    }
     return 0;
 }
