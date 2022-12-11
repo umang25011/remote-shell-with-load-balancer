@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
-int no_of_server_a_clients = 0, no_of_server_b_clients = 0, total_clients;
+int no_of_server_a_clients = 0, no_of_server_b_clients = 0, total_clients = -1;
 
 int join_server_a_or_b()
 {
@@ -19,9 +19,11 @@ int join_server_a_or_b()
     else if (no_of_server_b_clients < MAX_PROCESS_PER_SERVER)
         join_server = 0;
     else if (total_clients % 2 == 0)
-        join_server = 1;
-    else
         join_server = 0;
+    else
+        join_server = 1;
+
+    return join_server;
 }
 
 int main(int argc, char const *argv[])
@@ -52,11 +54,11 @@ int main(int argc, char const *argv[])
     while (1)
     {
         client = accept(sd, (struct sockaddr *)NULL, NULL);
-        total_clients++;
-        
+
         // only handle this inside server A
         if (strcmp(argv[1], "A") == 0)
         {
+            total_clients++;
             n = read(client, buffer, MAX_LENGTH);
             buffer[n] = '\0';
 
@@ -71,7 +73,6 @@ int main(int argc, char const *argv[])
 
                 // check condition here which server to join
                 int join_server_a = join_server_a_or_b();
-
                 if (join_server_a)
                 {
                     no_of_server_a_clients++;
@@ -83,8 +84,12 @@ int main(int argc, char const *argv[])
                     write(client, "B", 1);
                     close(client);
                 }
+                // fprintf(stderr, "\n Total clients: %d, A: %d, B: %d, join_server: %d", total_clients, no_of_server_a_clients, no_of_server_b_clients, join_server_a);
             }
         }
+
+        else
+            fprintf(stderr, "\nClient Accepted");
     }
 
     return 0;
