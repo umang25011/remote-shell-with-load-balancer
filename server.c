@@ -50,12 +50,12 @@ void ServeClient(int sd, const char *serverType)
     // make the screen descriptor designate the client socket
     dup2(sd, STDOUT_FILENO);
     dup2(sd, STDIN_FILENO);
-    // dup2(sd, STDERR_FILENO);
+    dup2(sd, STDERR_FILENO);
     while (1)
     {
         fprintf(stderr, "\nserveClient: reading from client");
         n = read(sd, message, MAX_LENGTH);
-      
+
         // quit if the client sends 'quit'
         message[n] = '\0';
         fprintf(stderr, "\nserveClient: client command: %s", message);
