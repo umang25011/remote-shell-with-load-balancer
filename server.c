@@ -78,7 +78,7 @@ void ServeClient(int sd, const char *serverType)
     // make the screen descriptor designate the client socket
     int stdout_file = dup(STDOUT_FILENO);
 
-    // dup2(sd, STDOUT_FILENO);
+    dup2(sd, STDOUT_FILENO);
     dup2(sd, STDIN_FILENO);
     dup2(sd, STDERR_FILENO);
     while (1)
