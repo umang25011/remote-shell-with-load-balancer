@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
         n = read(STDIN_FILENO, buffer, MAX_LENGTH);
         buffer[n] = '\0';
 
-        // send commands to the server using space" " to seperate arguments
+        
         write(server, buffer, strlen(buffer) + 1);
         // user types 'quit' to close the connection
         if (strncmp(buffer, "quit", 4) == 0)

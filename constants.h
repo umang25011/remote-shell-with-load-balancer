@@ -6,16 +6,16 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
-int SERVER_A_PORT_NUMBER = 5010,
-    SERVER_B_PORT_NUMBER = 5011,
+int SERVER_A_PORT_NUMBER = 5015,
+    SERVER_B_PORT_NUMBER = 5016,
     LOAD_BALANCER_PORT_NUMBER = 9656,
-    MAX_PROCESS_PER_SERVER = 2,
+    MAX_PROCESS_PER_SERVER = 5,
     MAX_PROCESSES = 1000,
     MAX_WORD_LENGTH = 40,
     MAX_LENGTH = 100000;
 
-char SERVER_A_IP[] = "127.0.1.1";
-char SERVER_B_IP[] = "127.0.1.1";
+char SERVER_A_IP[] = "127.0.0.1";
+char SERVER_B_IP[] = "127.0.0.1";
 char LOAD_BALANCER_IP[] = "127.0.0.1";
 
 void connectToServer(int *server, char *ip, int portNumber)

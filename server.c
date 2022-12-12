@@ -78,7 +78,7 @@ void ServeClient(int sd, const char *serverType)
     // make the screen descriptor designate the client socket
     int stdout_file = dup(STDOUT_FILENO);
 
-    dup2(sd, STDOUT_FILENO);
+    // dup2(sd, STDOUT_FILENO);
     dup2(sd, STDIN_FILENO);
     dup2(sd, STDERR_FILENO);
     while (1)
@@ -128,7 +128,6 @@ int main(int argc, char const *argv[])
         printf("\nPlease Pass server A or B\n");
         exit(1);
     }
-    join_server_a_or_b();
 
     int sd, server_a_id, client, n;
     char buffer[MAX_LENGTH];
